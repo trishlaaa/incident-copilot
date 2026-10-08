@@ -1,0 +1,13 @@
+# Java
+triage-service/target/
+*.class
+# Node
+dashboard/node_modules/
+dashboard/dist/
+# IDE / OS
+.idea/
+.vscode/
+*.iml
+.DS_Store
+# Secrets
+.env

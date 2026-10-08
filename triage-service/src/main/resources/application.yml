@@ -1,0 +1,34 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: triage-service
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/incidents}
+    username: ${DB_USER:copilot}
+    password: ${DB_PASSWORD:copilot}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP:localhost:9092}
+    consumer:
+      group-id: triage
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+app:
+  topic: app-logs
+  grouping-window-minutes: 15
+  llm:
+    # Any OpenAI-compatible endpoint works (OpenAI, Groq, Gemini's OpenAI endpoint, local Ollama).
+    # Leave LLM_API_KEY empty to run in retrieval-only mode (no external calls).
+    base-url: ${LLM_BASE_URL:https://api.openai.com/v1}
+    api-key: ${LLM_API_KEY:}
+    model: ${LLM_MODEL:gpt-4o-mini}
